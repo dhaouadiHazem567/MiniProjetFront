@@ -1,0 +1,11 @@
+
+export enum TypeActivity {
+
+  CALL = "CALL",
+  DINNER = "DINNER",
+  EMAIL = "EMAIL",
+  MANAGEMENT_COMMITTEE = "MANAGEMENT_COMMITTEE",
+  MEETING = "MEETING",
+  NOTE = "NOTE"
+
+}
