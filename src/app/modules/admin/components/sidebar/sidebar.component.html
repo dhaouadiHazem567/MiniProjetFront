@@ -1,0 +1,13 @@
+<p-sidebar [(visible)]="visible" position="left">
+  <h3 class="p-mb-3">Menu</h3>
+  <ul class="p-0">
+    <li (click)="navigateTo('dashboard')" class="menu-item">
+      <i class="pi pi-users"></i> Contacts
+    </li>
+    <li (click)="navigateTo('activities')" class="menu-item">
+      <i class="pi pi-calendar"></i> Activities
+    </li>
+  </ul>
+</p-sidebar>
+
+<button pButton type="button" icon="pi pi-bars" (click)="visible = true" class="btnSidebar">&nbsp;CRM</button>

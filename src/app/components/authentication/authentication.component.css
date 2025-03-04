@@ -1,0 +1,65 @@
+
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+.login-container {
+  width: 35vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img {
+  width: 250px;
+  height: 250px;
+  background-image: url("/assets/invest.png");
+  background-repeat: round;
+}
+
+.login-image {
+  width: 65vw;
+  height: 100vh;
+  background-image: url("/assets/login.png");
+  background-repeat: round;
+}
+
+.p-field {
+  margin-top: 20px;
+}
+
+.p-col-12 button {
+  background-color: #6F4F28;
+  margin-top: 20px;
+}
+
+.p-col-12 button:hover {
+  background-color: #8B4513;
+}
+
+.text-center {
+  margin-top: 10px;
+  display: flex;
+  justify-content: right;
+}
+
+.forgotPassword {
+  text-decoration: none;
+  color: grey;
+}
+
+.error-message {
+  display: block;
+  width: 20vw;
+  max-width: 20vw;
+}
+
+.fixed-input {
+  display: block;
+  width: 20vw;
+  max-width: 20vw;
+}
+

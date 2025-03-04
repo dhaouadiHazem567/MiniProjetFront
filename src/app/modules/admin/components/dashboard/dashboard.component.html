@@ -1,0 +1,213 @@
+<div class="header">
+  <h2>.Contacts List</h2>
+  <div class="header-buttons">
+    <button pButton label="Add Contact" icon="pi pi-user-plus" class="p-button-sm p-button-success addContactbtn"
+            (click)="addContact()"></button>
+  </div>
+</div>
+
+<div class="main-container">
+<div class="p-inputgroup" style="margin-bottom: 20px;">
+  <span class="p-inputgroup-addon">
+    <i class="pi pi-search"></i>
+  </span>
+
+  <p-selectButton
+    [options]="searchOptions"
+    [(ngModel)]="selectedSearchField"
+    optionLabel="label"
+    optionValue="value">
+  </p-selectButton>
+
+
+  <input pInputText
+         type="text"
+         [(ngModel)]="searchTerm"
+         (input)="filterContacts()"
+         [placeholder]="'Search by ' + selectedSearchField + '...'">
+</div>
+
+
+<p-table #dt [value]="filteredContacts" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
+         [sortMode]="'multiple'" [globalFilterFields]="['firstname', 'lastname', 'company', 'jobTitle',
+         'email', 'phone', 'contactOwnerUsername']" class="table">
+
+  <ng-template pTemplate="header" class="table-header">
+    <tr>
+      <th pSortableColumn="firstname">First Name <p-sortIcon field="firstname"></p-sortIcon></th>
+      <th pSortableColumn="lastname">Last Name <p-sortIcon field="lastname"></p-sortIcon></th>
+      <th pSortableColumn="company">Company <p-sortIcon field="company"></p-sortIcon></th>
+      <th pSortableColumn="jobTitle">Job <p-sortIcon field="jobTitle"></p-sortIcon></th>
+      <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+      <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon></th>
+      <th pSortableColumn="contactOwnerUsername">Contact Owner <p-sortIcon field="contactOwnerUsername"></p-sortIcon></th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-contact class="table-body">
+    <tr>
+      <td>{{ contact.firstname }}</td>
+      <td>{{ contact.lastname }}</td>
+      <td>{{ contact.company }}</td>
+      <td>{{ contact.jobTitle }}</td>
+      <td>{{ contact.email }}</td>
+      <td>{{ contact.phone }}</td>
+      <td>{{ contact.contactOwnerUsername }}</td>
+      <td class="action">
+        <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm updateBtn" (click)="editContact(contact)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm deleteBtn" (click)="deleteContact(contact.id)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+</div>
+
+<p-dialog [(visible)]="displayEditModal" [modal]="true" header="Edit Contact" [style]="{width: '500px'}">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="firstname">First Name</label>
+      <input type="text" pInputText [(ngModel)]="selectedContact.firstname" disabled>
+    </div>
+
+    <div class="p-field">
+      <label for="lastname">Last Name</label>
+      <input type="text" pInputText [(ngModel)]="selectedContact.lastname" disabled>
+    </div>
+
+    <div class="p-field">
+      <label for="company">Company</label>
+      <input type="text" pInputText [(ngModel)]="selectedContact.company" disabled>
+    </div>
+
+    <div class="p-field">
+      <label for="jobTitle">Job Title</label>
+      <p-dropdown [options]="jobTitles" [(ngModel)]="selectedJobTitle" placeholder="Select a Job"></p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <label for="email">Email</label>
+      <input type="text" pInputText [(ngModel)]="selectedContact.email" disabled>
+    </div>
+
+    <div class="p-field">
+      <label for="phone">Phone</label>
+      <input type="text" pInputText [(ngModel)]="selectedContact.phone" disabled>
+    </div>
+  </div>
+
+  <p-footer>
+    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayEditModal = false"></button>
+    <button pButton label="Save" icon="pi pi-check" class="p-button-primary" (click)="saveContact()"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog [(visible)]="displayAddModal" [modal]="true" header="Add Contact" [style]="{width: '60%'}">
+  <div class="p-fluid">
+    <fieldset>
+      <legend>Main information</legend>
+    <div class="p-field">
+      <label for="firstname">First Name</label>
+      <input id="firstname" type="text" pInputText [(ngModel)]="newContact.firstname" #firstname=ngModel required>
+      <p-message *ngIf="firstname.hasError('required') && firstname.touched" severity="error"
+                 text="Firstname is required"></p-message>
+    </div>
+
+    <div class="p-field">
+      <label for="lastname">Last Name</label>
+      <input id="lastname" type="text" pInputText [(ngModel)]="newContact.lastname" #lastname=ngModel required>
+      <p-message *ngIf="lastname.hasError('required') && lastname.touched" severity="error"
+                 text="Lastname is required"></p-message>
+    </div>
+
+      <div class="p-field">
+        <label>Username</label>
+        <input type="text" pInputText [(ngModel)]="newContact.username" #username=ngModel required>
+        <p-message *ngIf="username.hasError('required') && username.touched" severity="error"
+                   text="Username is required"></p-message>
+      </div>
+
+      <div class="p-field">
+      <label class="p-d-block">Password</label>
+      <input pInputText type="password" name="newPassword" [(ngModel)]="newContact.password"
+             required #password="ngModel" class="fixed-input"/>
+      <p-message *ngIf="password.hasError('required') && password.touched" severity="error"
+                 text="Password is required" class="error-message"></p-message>
+      <p-message *ngIf="!isValidPassword(newContact.password)" severity="error"
+                 text="Password must be at least 10 characters long, contain at least 1 number and
+                       1 special character." class="error-message">
+      </p-message>
+      </div>
+    <div class="p-field">
+      <label for="email">Email</label>
+      <input id="email" type="email" pInputText [(ngModel)]="newContact.email">
+    </div>
+
+    <div class="p-field">
+      <label for="phone">Phone</label>
+      <input id="phone" type="number" pInputText [(ngModel)]="newContact.phone">
+    </div>
+
+    <div class="p-field">
+      <label for="jobTitle">Job Title</label>
+      <p-dropdown id="jobTitle" [options]="jobTitles" [(ngModel)]="newContact.jobTitle" placeholder="Select a Job"></p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <label for="company">Company</label>
+      <input id="company" type="text" pInputText [(ngModel)]="newContact.company">
+    </div>
+
+    <div class="p-field">
+      <label for="contactOwner">Contact Owner</label>
+      <p-dropdown id="contactOwner" [options]="members" [(ngModel)]="newContact.contactOwnerUsername" placeholder="Select a Contact Owner"></p-dropdown>
+    </div>
+
+    <p-fileUpload name="photo"
+                  accept="image/jpeg, image/png"
+                  (onSelect)="onFileSelect($event)"
+                  [auto]="true"
+                  chooseLabel="Select Photo"
+                  cancelLabel="Cancel"
+                  [showUploadButton]="false">
+    </p-fileUpload>
+
+    </fieldset>
+
+    <fieldset>
+      <legend>Address Information</legend>
+
+      <div class="p-field">
+        <label for="address">Address</label>
+        <input id="address" type="text" pInputText [(ngModel)]="newContact.address.address">
+      </div>
+
+      <div class="p-field">
+        <label for="city">City</label>
+        <input id="city" type="text" pInputText [(ngModel)]="newContact.address.city">
+      </div>
+
+      <div class="p-field">
+        <label for="state">State</label>
+        <input id="state" type="text" pInputText [(ngModel)]="newContact.address.state">
+      </div>
+
+      <div class="p-field">
+        <label for="zipCode">Zip Code</label>
+        <input id="zipCode" type="number" pInputText [(ngModel)]="newContact.address.zipCode">
+      </div>
+
+      <div class="p-field">
+        <label>Country</label>
+        <p-dropdown [options]="countries" [(ngModel)]="newContact.address.country" placeholder="Select a Country"></p-dropdown>
+      </div>
+    </fieldset>
+  </div>
+
+  <p-footer>
+    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayAddModal = false"></button>
+    <button pButton label="Save" icon="pi pi-check" class="p-button-primary"
+            (click)="postContact()" [disabled]="firstname.hasError('required') || lastname.hasError('required')"></button>
+  </p-footer>
+</p-dialog>

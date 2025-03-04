@@ -1,0 +1,56 @@
+
+.page-admin {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.fixed-header {
+  width: 100vw;
+  height: 15vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  position: sticky;
+  top: 0;
+}
+
+.logo {
+  width: 225px;
+  height: 13vh;
+  background-image: url("/assets/ads.jpg");
+  background-repeat: round;
+}
+
+.custom-footer {
+  width: 100vw;
+  height: 10vh;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-top: 5px solid #ddd;
+  font-size: 14px;
+  color: #555;
+  position: fixed;
+  top: 90vh;
+}
+
+router-outlet {
+}
+
+.logoutBtn {
+  background-color: #D32F2F
+}
+
+.logoutBtn:hover{
+  color: #D32F2F;
+  background-color: white;
+}
+
+app-sidebar{
+  margin: 15px;
+}

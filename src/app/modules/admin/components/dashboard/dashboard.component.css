@@ -1,0 +1,102 @@
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background: #f8f9fa;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+h2 {
+  color: #FF9800;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+::ng-deep .p-dialog .p-dialog-content {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+fieldset {
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.main-container {
+  margin: 15px;
+}
+
+.table {
+
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 15px;
+  color: #333;
+  background-color: #fff;
+}
+
+tr:nth-child(even) td {
+  background-color: #f8f9fa;
+}
+
+tr:hover td {
+  background-color: #e3f2fd;
+  cursor: pointer;
+}
+
+th {
+  background-color: #1E88E5;
+  color: white;
+  padding: 14px;
+  text-align: center;
+  font-size: 17px;
+}
+
+.addContactbtn {
+  background-color: #FF9800;
+  border: none;
+  border-radius: 10px;
+}
+
+.addContactbtn:hover {
+  background-color: white;
+  color: #F57C00;
+}
+
+.updateBtn {
+  border: 2px solid #1E88E5;
+  color: #1E88E5;
+  background-color: white;
+  padding: 5px;
+}
+
+.updateBtn:hover{
+  color: white;
+  background-color: #1E88E5;
+}
+
+.deleteBtn {
+  border: 2px solid darkgrey;
+  color:  darkgrey;
+  background-color: white;
+  padding: 5px;
+}
+
+.deleteBtn:hover{
+  color:  white;
+  background-color: darkgrey;
+}
+
+.action {
+  display: flex;
+  justify-content: space-around;
+}

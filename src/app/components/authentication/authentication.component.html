@@ -1,0 +1,132 @@
+<div class="login-page">
+  <div class="login-container">
+    <div class="img"></div>
+    <div class="form" [hidden]="hide !== 0">
+      <form #myForm="ngForm">
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-12 p-md-6">
+            <label for="username" class="p-d-block">Username</label>
+            <input id="username" pInputText name="username" [(ngModel)]="userAuthentication.username"
+                   required #username="ngModel" class="fixed-input"/>
+            <p-message *ngIf="username.hasError('required') && username.touched" severity="error"
+                       text="Username is required" class="error-message"></p-message>
+          </div>
+
+          <div class="p-field p-col-12 p-md-6">
+            <label for="password" class="p-d-block">Password</label>
+            <input id="password" pInputText type="password" name="password"
+                   [(ngModel)]="userAuthentication.password" required #password="ngModel" class="fixed-input"/>
+            <p-message *ngIf="password.hasError('required') && password.touched" severity="error"
+                       text="Password is required" class="error-message"></p-message>
+          </div>
+
+          <div class="p-col-12">
+            <button pButton type="submit" label="Log In" icon="pi pi-sign-in" [disabled]="myForm.invalid"
+                    (click)="onLogin()" class="p-button-lg p-button-primary"></button>
+          </div>
+        </div>
+
+        <div class="text-center mt-3">
+          <a class="forgotPassword" (click)="incrementHide()">Forgot Password?</a>
+        </div>
+      </form>
+
+    </div>
+
+    <div class="form" [hidden]="hide !== 1">
+      <form #myForm1="ngForm">
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-12 p-md-6">
+            <label for="email">Email:</label>
+            <input id="email" pInputText type="email" [(ngModel)]="userEmail" name="email" #email="ngModel"
+                   required class="fixed-input"/>
+
+            <p-message *ngIf="email.hasError('required') && email.touched" severity="error"
+                       text="Email is required" class="error-message"></p-message>
+
+            <p-message *ngIf="!isValidEmail(userEmail) && email.touched" severity="error"
+                       text="Email must be a valid email" class="error-message"></p-message>
+          </div>
+
+          <div class="p-col-12">
+            <button pButton type="submit" label="Submit" icon="pi pi-check" [disabled]="myForm1.invalid
+            || !isValidEmail(userEmail)" (click)="onForgotPassword()" class="p-button-lg p-button-primary"></button>
+          </div>
+
+          <div class="p-col-12 mt-3">
+            <button pButton type="button" label="Return" icon="pi pi-arrow-left" (click)="decrementHide()"
+                    class="p-button-lg p-button-danger"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="form" [hidden]="hide !== 2">
+      <form #myForm2="ngForm">
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-12 p-md-6">
+            <label for="code">Code:</label>
+            <input id="code" pInputText type="number" [(ngModel)]="userCode" name="code" #code="ngModel"
+                   required max="99999999" min="11111111" class="fixed-input"/>
+
+            <p-message *ngIf="code.hasError('required') && code.touched" severity="error"
+                       text="Code is required" class="error-message"></p-message>
+
+            <p-message *ngIf="code.hasError('max') || code.hasError('min')" severity="error"
+                       text="Code must be exactly 8 digits" class="error-message"></p-message>
+          </div>
+
+          <div class="p-col-12">
+            <button pButton type="submit" label="Submit" icon="pi pi-check" [disabled]="myForm2.invalid"
+                    (click)="enterCode()" class="p-button-lg p-button-primary"></button>
+          </div>
+
+          <div class="p-col-12 mt-3">
+            <button pButton type="button" label="Return" icon="pi pi-arrow-left" (click)="decrementHide()"
+                    class="p-button-lg p-button-danger"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="form" [hidden]="hide !== 3">
+      <form #myForm3="ngForm">
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-12 p-md-6">
+            <label for="newPassword" class="p-d-block">New Password</label>
+            <input id="newPassword" pInputText type="password" name="newPassword" [(ngModel)]="newPassword"
+                   required #password="ngModel" class="fixed-input"/>
+            <p-message *ngIf="password.hasError('required') && password.touched" severity="error"
+                       text="Password is required" class="error-message"></p-message>
+            <p-message *ngIf="!isValidPassword(newPassword)" severity="error"
+                       text="Password must be at least 10 characters long, contain at least 1 number and
+                       1 special character." class="error-message">
+            </p-message>
+          </div>
+
+          <div class="p-field p-col-12 p-md-6">
+            <label for="confirmNewPassword" class="p-d-block">Confirm New Password</label>
+            <input id="confirmNewPassword" pInputText type="password" name="confirmNewPassword"
+                   [(ngModel)]="confirmNewPassword" required #confirmPassword="ngModel" class="fixed-input"/>
+            <p-message *ngIf="newPassword !== confirmNewPassword && confirmPassword.touched" severity="error"
+                       text="Please ensure that both fields contain the same password." class="error-message">
+            </p-message>
+          </div>
+
+          <div class="p-col-12">
+            <button pButton type="submit" label="Submit" icon="pi pi-check"
+                    [disabled]="myForm3.invalid || newPassword !== confirmNewPassword" (click)="updatePassword()" class="p-button-lg p-button-primary">
+            </button>
+
+            <div class="p-col-12 mt-3">
+              <button pButton type="button" label="Return" icon="pi pi-arrow-left" (click)="decrementHide()" class="p-button-lg p-button-danger"></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <div class="login-image"></div>
+</div>

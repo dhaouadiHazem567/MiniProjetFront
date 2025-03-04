@@ -1,0 +1,153 @@
+<div class="header">
+  <h2>.Activities List</h2>
+  <div class="header-buttons">
+    <button pButton label="Add Activity" icon="pi pi-calendar-plus" class="p-button-sm p-button-success addActivityBtn"
+            (click)="addActivity()"></button>
+  </div>
+</div>
+
+<div class="main-container">
+<div class="p-inputgroup" style="margin-bottom: 20px;">
+  <span class="p-inputgroup-addon">
+    <i class="pi pi-search"></i>
+  </span>
+
+  <p-selectButton
+    [options]="searchOptions"
+    [(ngModel)]="selectedSearchField"
+    optionLabel="label"
+    optionValue="value">
+  </p-selectButton>
+
+
+  <input pInputText
+         type="text"
+         [(ngModel)]="searchTerm"
+         (input)="filterActivities()"
+         [placeholder]="'Search by ' + selectedSearchField + '...'">
+</div>
+
+<p-table #dt [value]="filteredActivities" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
+         [sortMode]="'multiple'" [globalFilterFields]="['typeActivity', 'subject', 'notes', 'date']" class="table">
+
+  <ng-template pTemplate="header" class="table-header">
+    <tr>
+      <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+      <th pSortableColumn="typeActivity">Type <p-sortIcon field="typeActivity"></p-sortIcon></th>
+      <th pSortableColumn="subject">Subject <p-sortIcon field="subject"></p-sortIcon></th>
+      <th pSortableColumn="notes">Notes <p-sortIcon field="notes"></p-sortIcon></th>
+      <th>Contacts</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-activity class="table-body">
+    <tr>
+      <td>{{ activity.date}}</td>
+      <td>{{ activity.typeActivity }}</td>
+      <td>{{ activity.subject }}</td>
+      <td>{{ activity.notes }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let contact of activity.contacts">{{ contact.firstname }} {{ contact.lastname }}</li>
+        </ul>
+      </td>
+      <td class="action">
+        <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm updateBtn" (click)="editActivity(activity)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm deleteBtn" (click)="deleteActivity(activity.id)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+</div>
+
+<p-dialog [(visible)]="displayEditModal" [modal]="true" header="Edit Activity" [style]="{width: '500px'}">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label>Date</label>
+      <p-calendar
+        [(ngModel)]="selectedActivity.date"
+        [showIcon]="true"
+        dateFormat="yy-mm-dd" />
+    </div>
+
+    <div class="p-field">
+      <label for="typeActivity">Type</label>
+      <p-dropdown [options]="activityTypes" [(ngModel)]="selectedActivity.typeActivity"
+                  placeholder="Select Activity Type" [checkmark]="true"
+                  ></p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <label>Subject</label>
+      <input type="text" pInputText [(ngModel)]="selectedActivity.subject">
+    </div>
+
+    <div class="p-field">
+      <label>Notes</label>
+      <textarea pInputTextarea [(ngModel)]="selectedActivity.notes" rows="3"></textarea>
+    </div>
+
+    <div class="p-field">
+      <label>Contacts</label>
+      <p-multiSelect [options]="contactOptions" [(ngModel)]="selectedActivity.contacts" [virtualScroll]="true"
+                     placeholder="Select Contacts"></p-multiSelect>
+    </div>
+  </div>
+
+  <p-footer>
+    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayEditModal = false"></button>
+    <button pButton label="Save" icon="pi pi-check" class="p-button-primary" (click)="saveActivity()"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog [(visible)]="displayAddModal" [modal]="true" header="Create Activity" [style]="{width: '500px'}">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label>Date</label>
+      <p-calendar
+        [(ngModel)]="newActivity.date"
+        [showIcon]="true"
+        >
+      </p-calendar>
+    </div>
+
+    <div class="p-field">
+      <label for="typeActivity">Type</label>
+      <p-dropdown
+        id="typeActivity"
+        [options]="activityTypes"
+        [(ngModel)]="newActivity.typeActivity"
+        placeholder="Select Activity Type">
+      </p-dropdown>
+    </div>
+
+    <div class="p-field">
+      <label for="subject">Subject</label>
+      <input type="text" pInputText [(ngModel)]="newActivity.subject" id="subject">
+    </div>
+
+    <div class="p-field">
+      <label for="notes">Notes</label>
+      <textarea pInputTextarea [(ngModel)]="newActivity.notes" rows="3" id="notes"></textarea>
+    </div>
+
+    <div class="p-field">
+      <label for="contacts">Contacts</label>
+      <p-multiSelect
+        [options]="contactOptions"
+        [(ngModel)]="newActivity.contacts"
+        placeholder="Select Contacts"
+        id="contacts">
+      </p-multiSelect>
+    </div>
+  </div>
+
+  <p-footer>
+    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="displayAddModal = false"></button>
+    <button pButton label="Save" icon="pi pi-check" class="p-button-primary" (click)="postActivity()"></button>
+  </p-footer>
+</p-dialog>
+
+
